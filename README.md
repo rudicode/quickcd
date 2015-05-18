@@ -15,10 +15,10 @@ the function will execute the ruby script qcd which does all the logic.
 
 Features:
 
-qcd code
-qcd proje
-qcd code\some
-qcd 23
+    qcd code
+    qcd proje
+    qcd code\some
+    qcd 23
 
   cd into directory with associated shortcut.
   Checks for exact match in shortcuts and changes to the directory associated
