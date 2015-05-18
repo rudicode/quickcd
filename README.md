@@ -47,8 +47,9 @@ Features:
     qcd -a
     qcd -a ~/code/fluffy_bunny
 
-  - add the current directory to the list.
-  - add the given directory to the list
+  add the current directory to the list.
+  
+  add the given directory to the list
 
 
     qcd -s
