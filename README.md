@@ -27,36 +27,36 @@ Features:
   on the list.
 
 
-qcd
+    qcd
 
   Switch back to last changed directory. This is shared between
   terminals. So if in one terminal you do qcd /some/really/long/directory
   then in another terminal just do a qcd and it will take you to that last
   one.
 
-qcd -l
+    qcd -l
 
   lists all the saved directories.
 
 
-qcd -l proje
+    qcd -l proje
 
   list saved directories that match proje
 
 
-qcd -a
-qcd -a ~/code/fluffy_bunny
+    qcd -a
+    qcd -a ~/code/fluffy_bunny
 
   - add the current directory to the list.
   - add the given directory to the list
 
 
-qcd -s
+    qcd -s
 
   sort the directory listing. Be careful, as it changes your numbering
 
 
-qcd -show-stale
+    qcd -show-stale
 
   Shows all directories that are currently listed but do not exist anymore.
   Also shows directories that can't be reached because they are not mounted.
@@ -64,7 +64,7 @@ qcd -show-stale
   command
 
 
-qcd -remove-stale
+    qcd -remove-stale
 
   Checks each entry to see if it exists, if not it copies the entry
   to ~/.qcd/removed, and removes it from ~/.qcd/directories
@@ -72,7 +72,7 @@ qcd -remove-stale
   be removed as well.
 
 
-qcd -h
+    qcd -h
 
   get help info
 
@@ -81,7 +81,7 @@ qcd -h
 
 Config files
 
-~/.qcd/directories
+    ~/.qcd/directories
 
 You can edit the directories and their positions
 
