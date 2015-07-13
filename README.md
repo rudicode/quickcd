@@ -17,7 +17,7 @@ Features:
 
     qcd code
     qcd proje
-    qcd code\some
+    qcd code/some
     qcd 23
 
   cd into directory with associated shortcut.
@@ -48,7 +48,7 @@ Features:
     qcd -a ~/code/fluffy_bunny
 
   add the current directory to the list.
-  
+
   add the given directory to the list
 
 
@@ -57,7 +57,7 @@ Features:
   sort the directory listing. Be careful, as it changes your numbering
 
 
-    qcd -show-stale
+    qcd --show-stale
 
   Shows all directories that are currently listed but do not exist anymore.
   Also shows directories that can't be reached because they are not mounted.
@@ -65,7 +65,7 @@ Features:
   command
 
 
-    qcd -remove-stale
+    qcd --remove-stale
 
   Checks each entry to see if it exists, if not it copies the entry
   to ~/.qcd/removed, and removes it from ~/.qcd/directories
