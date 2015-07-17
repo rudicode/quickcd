@@ -104,13 +104,11 @@ begin
   end
 
   if options[:add_directory]
-    error_code = qcd.add_current_directory options[:add_directory]
-    exit error_code
+    exit qcd.add_current_directory options[:add_directory]
   end
 
   if options[:remove_directory]
-    error_code = qcd.remove_shortcut options[:remove_directory]
-    exit error_code
+    exit qcd.remove_shortcut options[:remove_directory]
   end
 
   if options[:show_configure]
@@ -123,5 +121,4 @@ begin
     puts "source #{script_path}/#{script_name}.sh\n\n\n"
     exit error_code
   end
-
 end
