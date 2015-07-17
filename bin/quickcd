@@ -1,6 +1,127 @@
 #!/usr/bin/env ruby
-
 require "bundler/setup"
+require 'optparse'
+require 'fileutils'
 require "quickcd"
 
-puts "#{Quickcd::VERSION}"
+#
+#check if current script is symlinked if so resolve it to find actual location of file
+@full_path = File.symlink?($0) ? File.readlink($0) : $0
+$script_name  = File.expand_path(@full_path)
+# @qcd_location = File.dirname($script_name)
+
+# error_code: 99 qcd.sh will execute all stdout if returned
+# error_code: 1-98 qcd.sh will display output from program
+# most error codes are for debuging purposes
+# error_code 0 sucess
+# error_code 1 reserved ( used by qcd.sh if ruby script did not run )
+# error_code 2 means not implemented
+# error_code 3 could not find a match
+# error_code 4 could not remove match because it did not exist
+# error_code 5 default error can be ignored
+# error_code 6 config file could not be created or opened
+# error_code 99 sucess, found match and output is set up
+
+error_code = 0
+
+@home_dir = ENV['HOME']
+qcd = Quickcd::Qcd.new( "#{@home_dir}/.qcd/config" )
+
+#### Start Optionparser
+begin
+  options = {}
+
+  optparse = OptionParser.new do|opt|
+    opt.banner = "qcd version:  #{Quickcd::VERSION}\n\nUsage: qcd [options] shortcut"
+
+    # options
+    options[:list] = false
+    opt.on( '-l', '--list', 'List saved directories' ) do
+      options[:list] = true
+    end
+
+    options[:add_directory] = false
+    opt.on( '-a', '--add [shortcut]', 'Add the current directory, optionaly give it a shortcut name' ) do |f|
+      options[:add_directory] = f || true
+    end
+
+    options[:remove_directory] = false
+    opt.on( '-r', '--remove shortcut', 'Remove the directory, specified by shortcut' ) do |f|
+      options[:remove_directory] = f
+    end
+
+    options[:show_configure] = false
+    opt.on( '--show-configure', 'Show how to setup qcd shell function' ) do
+      options[:show_configure] = true
+    end
+
+  # The following not implemented yet
+    # options[:sort] = false
+    # opt.on( '--sort', '(not implemented) Sort directory listing, CAUTION this renumbers the listing.' ) do
+    #   options[:sort] = true
+    # end
+
+    # options[:liststale] = false
+    # opt.on( '--list-stale', '(not implemented) Lists entries of non-existant directories' ) do
+    #   options[:liststale] = true
+    # end
+
+    # options[:removestale] = false
+    # opt.on( '--remove-stale', '(not implemented) Removes entries of non-existant directories' ) do
+    #   options[:removestale] = true
+    # end
+
+    # options[:pushstack] = false
+    # opt.on( '-+', '--push', '(not implemented) Push current directory to stack' ) do
+    #   options[:pushstack] = true
+    # end
+
+    # options[:popstack] = false
+    # opt.on( '--', '--pop', '(not implemented) Pop directory from stack ' ) do
+    #   options[:popstack] = true
+    # end
+
+    opt.on( '-h', '--help', 'Display help screen' ) do
+      puts opt
+      exit error_code
+    end
+
+    opt.on( '-v', '--version', 'Display version information' ) do
+      puts "Version: #{ Quickcd::VERSION }\n"
+      exit error_code
+    end
+  end
+
+  optparse.parse! ARGV #removes known options from ARGV and leaves unknown
+
+  puts "options are: #{options}"
+  puts "ARGV after parse is: #{ARGV}"
+
+
+  if options[:list]
+    puts qcd.list
+    exit error_code
+  end
+
+  if options[:add_directory]
+    error_code = qcd.add_current_directory options[:add_directory]
+    exit error_code
+  end
+
+  if options[:remove_directory]
+    error_code = qcd.remove_shortcut options[:remove_directory]
+    exit error_code
+  end
+
+  if options[:show_configure]
+
+    script_path = File.dirname($script_name)
+    script_name = File.basename($script_name)
+    puts "\n\nAdd this to your ~/.bashrc\n\n"
+    puts "# added for qcd"
+    puts "export QCD_PATH=#{$script_name}"
+    puts "source #{script_path}/#{script_name}.sh\n\n\n"
+    exit error_code
+  end
+
+end
