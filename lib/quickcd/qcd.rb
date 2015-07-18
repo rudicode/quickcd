@@ -1,5 +1,8 @@
+require 'helpers'
+
 module Quickcd
   class Qcd
+
     def initialize path
       puts "Path: #{path}"
       @config_parser = Quickcd::ConfigParser.new(path)
@@ -10,7 +13,8 @@ module Quickcd
       @config_parser.config_pairs.each do |key,value|
         output << "#{key} = #{value}\n"
       end
-      output
+      presenter = Quickcd::Presenter.new
+      output = presenter.format_list @config_parser.config_pairs, " = "
     end
 
   end
