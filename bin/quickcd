@@ -7,8 +7,8 @@ require "quickcd"
 #
 #check if current script is symlinked if so resolve it to find actual location of file
 @full_path = File.symlink?($0) ? File.readlink($0) : $0
-$script_name  = File.expand_path(@full_path)
-# @qcd_location = File.dirname($script_name)
+@script_name  = File.expand_path(@full_path)
+# @qcd_location = File.dirname(@script_name)
 
 # error_code: 99 qcd.sh will execute all stdout if returned
 # error_code: 1-98 qcd.sh will display output from program
@@ -113,11 +113,11 @@ begin
 
   if options[:show_configure]
 
-    script_path = File.dirname($script_name)
-    script_name = File.basename($script_name)
+    script_path = File.dirname(@script_name)
+    script_name = File.basename(@script_name)
     puts "\n\nAdd this to your ~/.bashrc\n\n"
     puts "# added for qcd"
-    puts "export QCD_PATH=#{$script_name}"
+    puts "export QCD_PATH=#{@script_name}"
     puts "source #{script_path}/#{script_name}.sh\n\n\n"
     exit error_code
   end
